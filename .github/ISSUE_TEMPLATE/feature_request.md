@@ -8,13 +8,14 @@ assignees: ''
 ---
 
 **Descripción**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+Pending
 
 **Puntos de historia de usuario**
-A clear and concise description of any alternative solutions or features you've considered.
+Pending
 
 **Listado de tareas**
-A clear and concise description of what you want to happen.
+- [ ] Subtask 1
+- [ ] Subtask 2
 
 **Diseño UX/UI**
-Add any other context or screenshots about the feature request here.
+Pending
