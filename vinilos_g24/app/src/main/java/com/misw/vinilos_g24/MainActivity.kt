@@ -1,5 +1,7 @@
 package com.misw.vinilos_g24
 
+import CantanteModelo
+import RecyclerViewAdaptador
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
@@ -11,18 +13,29 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var recyclerViewAlbum: RecyclerView
+    private lateinit var adaptadorCantante: RecyclerViewAdaptador
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recyclerViewAlbum = findViewById(R.id.recycleCover)
+        recyclerViewAlbum.layoutManager = LinearLayoutManager(this)
+
+        adaptadorCantante = RecyclerViewAdaptador(obtenerAlbum());
+        recyclerViewAlbum.setAdapter(adaptadorCantante);
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -55,4 +68,11 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    private fun obtenerAlbum(): List<CantanteModelo> {
+        val cantante = ArrayList<CantanteModelo>()
+        cantante.add(CantanteModelo("New Days", "Simple Plan", R.drawable.cover1))
+        return cantante
+    }
+
 }
