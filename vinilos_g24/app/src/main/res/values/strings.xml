@@ -6,19 +6,9 @@
     <string name="nav_header_subtitle">vinilos@miso.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Inicio</string>
     <string name="menu_artistas">Artistas</string>
     <string name="menu_albumes">Álbumes</string>
     <string name="menu_premios">Premios</string>
     <string name="menu_coleccionistas">Coleccionistas</string>
-    <string name="default_text">Haga clic en el botón para cargar información</string>
-    <string name="post_text">Haga clic en el botón para crear un dato</string>
-    <string name="fetch_label">Obtener coleccionistas</string>
-    <string name="post_label">Crear coleccionista</string>
-    <string name="id_hint">ID</string>
-    <string name="name_hint">John Doe</string>
-    <string name="phone_hint">3112223344</string>
-    <string name="mail_hint">example@domain.com</string>
-    <string name="action_switch_layout">Cambiar actividad</string>
 </resources>

@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val fragmentManager = supportFragmentManager
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
