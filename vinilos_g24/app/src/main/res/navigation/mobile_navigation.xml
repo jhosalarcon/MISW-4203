@@ -20,13 +20,13 @@
 
     <fragment
         android:id="@+id/nav_premios"
-        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesFragment"
+        android:name="com.misw.vinilos_g24.ui.home.HomeFragment"
         android:label="@string/menu_premios"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_coleccionistas"
-        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesFragment"
+        android:name="com.misw.vinilos_g24.ui.home.HomeFragment"
         android:label="@string/menu_coleccionistas"
         tools:layout="@layout/fragment_home" />
 
