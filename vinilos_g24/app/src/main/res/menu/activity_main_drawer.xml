@@ -26,11 +26,5 @@
             android:id="@+id/nav_coleccionistas"
             android:icon="@android:drawable/btn_star"
             android:title="@string/menu_coleccionistas" />
-
-        <item
-            android:id="@+id/nav_retro"
-            android:icon="@android:drawable/btn_star"
-            android:title="Retro" />
-
     </group>
 </menu>

@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val fragmentManager = supportFragmentManager
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,17 +59,5 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.fetch_button_2 -> {
-                // Create an intent with a destination of the other Activity
-                val intent = Intent(this, RetrofitActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }
