@@ -26,6 +26,5 @@
             android:id="@+id/nav_coleccionistas"
             android:icon="@android:drawable/btn_star"
             android:title="@string/menu_coleccionistas" />
-
     </group>
 </menu>
