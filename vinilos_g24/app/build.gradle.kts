@@ -13,8 +13,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -61,4 +60,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.2")
     implementation("com.squareup.retrofit2:converter-gson:2.3.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    testImplementation("junit:junit:4.12'")
+    androidTestImplementation("com.android.support.test:runner:1.0.1")
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1")
+
 }
