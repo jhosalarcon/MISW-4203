@@ -1,12 +1,14 @@
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Artista
+import com.squareup.picasso.Picasso
 
-class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.AlbumViewHolder>() {
+class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.ArtistViewHolder>() {
 
     private var artists: List<Artista> = emptyList()
 
@@ -15,25 +17,38 @@ class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.AlbumViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
-        return AlbumViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_artist, parent, false)
+        return ArtistViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        val album = artists[position]
-        holder.bind(album)
+    override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
+        val artista = artists[position]
+        holder.bind(artista)
     }
 
     override fun getItemCount(): Int {
         return artists.size
     }
 
-    inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
+    inner class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val artistImageView: ImageView = itemView.findViewById(R.id.artistImageView)
+        private val artistNameTextView: TextView = itemView.findViewById(R.id.artistNameTextView)
+        private val birthDateTextView: TextView = itemView.findViewById(R.id.birthDateTextView)
 
         fun bind(artista: Artista) {
-            nameTextView.text = artista.name
+
+             if (artista.image != null) {
+                Picasso.get()
+                    .load(artista.image)
+                    .into(artistImageView)
+            } else {
+                // Set placeholder image if cover URL is null
+                Picasso.get()
+                    .load("https://placehold.co/")  .into(artistImageView)
+            }
+            artistNameTextView.text = artista.name
+            birthDateTextView.text = artista.birthDate.toString() // Assuming 'artista' has a 'birthDate' property
         }
     }
 }

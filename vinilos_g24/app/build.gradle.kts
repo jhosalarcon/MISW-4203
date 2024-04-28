@@ -62,6 +62,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     testImplementation("junit:junit:4.12'")
     androidTestImplementation("com.android.support.test:runner:1.0.1")
+    implementation("com.squareup.picasso:picasso:2.8")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1")
 
 }

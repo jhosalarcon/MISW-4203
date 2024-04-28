@@ -33,7 +33,7 @@ class AlbumesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_albumes, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recyclerViewArtista)
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AlbumAdapter()
         recyclerView.adapter = adapter
