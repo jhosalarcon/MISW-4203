@@ -33,7 +33,7 @@ class ArtistasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_artistas, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recyclerViewArtista)
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ArtistaAdapter()
         recyclerView.adapter = adapter
