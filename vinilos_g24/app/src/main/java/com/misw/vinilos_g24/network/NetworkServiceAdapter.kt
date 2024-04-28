@@ -1,11 +1,11 @@
-package com.misw.vinilos_g24.brokers
+package com.misw.vinilos_g24.network
 
 import com.misw.vinilos_g24.models.Album
 import com.misw.vinilos_g24.models.Artista
 import retrofit2.Call
 import retrofit2.http.GET
 
-interface Retro {
+interface NetworkServiceAdapter {
     @GET("albums")
     fun getAlbums(): Call<List<Album>>
 
