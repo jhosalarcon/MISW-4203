@@ -1,4 +1,4 @@
-plugins {
+    plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -13,7 +13,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -63,5 +63,7 @@ dependencies {
     testImplementation("junit:junit:4.12'")
     androidTestImplementation("com.android.support.test:runner:1.0.1")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1")
+
+
 
 }
