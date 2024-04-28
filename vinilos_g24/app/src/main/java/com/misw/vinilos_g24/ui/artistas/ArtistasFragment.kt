@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
 import com.misw.vinilos_g24.databinding.FragmentArtistasBinding
 import com.misw.vinilos_g24.models.Artista
+import com.misw.vinilos_g24.network.NetworkServiceAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +33,7 @@ class ArtistasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_artistas, container, false)
-        recyclerView = view.findViewById(R.id.recyclerViewArtista)
+        recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ArtistaAdapter()
         recyclerView.adapter = adapter
