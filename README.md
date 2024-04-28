@@ -29,6 +29,5 @@ Proyecto: https://github.com/users/jhosalarcon/projects/4
 -Una vez instalada, encontrarás la aplicación en tu lista de aplicaciones. Toca el icono para abrir y utilizar la aplicación.
 
 # Nota
-Backend apuntando a dirección local, aún se encuentra en proceso de subida a la nube
 Es posible que debas habilitar la instalación de aplicaciones de fuentes desconocidas en la configuración de tu dispositivo para poder instalar el APK.
 
