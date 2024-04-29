@@ -1,0 +1,22 @@
+Index: app/src/main/res/layout/fragment_artistas.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/recyclerViewArtista\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/performersTextView\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"TextView\" />\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_artistas.xml b/app/src/main/res/layout/fragment_artistas.xml
+--- a/app/src/main/res/layout/fragment_artistas.xml	(revision 0e90bdab700b9369242b180239403f163c018757)
++++ b/app/src/main/res/layout/fragment_artistas.xml	(date 1714353961971)
+@@ -8,10 +8,4 @@
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" />
+ 
+-    <TextView
+-        android:id="@+id/performersTextView"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="TextView" />
+-
+ </RelativeLayout>
+\ No newline at end of file
