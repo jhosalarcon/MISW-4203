@@ -1,10 +1,12 @@
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
+import com.squareup.picasso.Picasso
 
 class AlbumAdapter : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
@@ -30,10 +32,26 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     }
 
     inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
+        private val albumImageView: ImageView = itemView.findViewById(R.id.albumImageView)
+        private val albumNameTextView: TextView = itemView.findViewById(R.id.albumNameTextView)
+        private val genreTextView: TextView = itemView.findViewById(R.id.genreTextView)
+        private val releaseTextView: TextView = itemView.findViewById(R.id.releaseTextView)
 
         fun bind(album: Album) {
-            nameTextView.text = album.name
+            albumNameTextView.text = album.name
+            if (album.cover != null) {
+                Picasso.get()
+                    .load(album.cover)
+                    .into(albumImageView)
+            } else {
+                // Set placeholder image if cover URL is null
+                Picasso.get()
+                    .load("https://placehold.co/")  .into(albumImageView)
+            }
+
+            val performersString = album.performers.joinToString(", ")
+            releaseTextView.text = album.releaseDate
+            genreTextView.text = album.genre
         }
     }
 }

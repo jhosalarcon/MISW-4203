@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
-import com.misw.vinilos_g24.brokers.Retro
 import com.misw.vinilos_g24.databinding.FragmentAlbumesBinding
 import com.misw.vinilos_g24.models.Album
+import com.misw.vinilos_g24.network.NetworkServiceAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,11 +44,11 @@ class AlbumesFragment : Fragment() {
 
     private fun loadAlbums() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl("http://35.226.250.165:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val apiService = retrofit.create(Retro::class.java)
+        val apiService = retrofit.create(NetworkServiceAdapter::class.java)
         val call = apiService.getAlbums()
 
         call.enqueue(object : Callback<List<Album>> {
