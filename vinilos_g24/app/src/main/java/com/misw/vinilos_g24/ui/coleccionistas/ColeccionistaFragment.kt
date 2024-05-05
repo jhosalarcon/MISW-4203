@@ -1,6 +1,6 @@
-package com.misw.vinilos_g24.ui.artistas
+package com.misw.vinilos_g24.ui.coleccionistas
 
-import ArtistaAdapter
+import ColeccionistaAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
-import com.misw.vinilos_g24.databinding.FragmentArtistasBinding
-import com.misw.vinilos_g24.models.Artista
+import com.misw.vinilos_g24.databinding.FragmentColeccionistasBinding
+import com.misw.vinilos_g24.models.Coleccionista
 import com.misw.vinilos_g24.network.NetworkServiceAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,51 +19,51 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ArtistasFragment : Fragment() {
+class ColeccionistaFragment : Fragment() {
 
-    private var _binding: FragmentArtistasBinding? = null
+    private var _binding: FragmentColeccionistasBinding? = null
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ArtistaAdapter
-    private lateinit var artists: List<Artista>
+    private lateinit var adapter: ColeccionistaAdapter
+    private lateinit var collectors: List<Coleccionista>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_artistas, container, false)
+        val view = inflater.inflate(R.layout.fragment_coleccionistas, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ArtistaAdapter()
+        adapter = ColeccionistaAdapter()
         recyclerView.adapter = adapter
 
-        loadArtists()
+        loadCollectors()
         return view
     }
 
-    private fun loadArtists() {
+    private fun loadCollectors() {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://146.148.107.196:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getArtists()
+        val call = apiService.getCollectors()
 
-        call.enqueue(object : Callback<List<Artista>> {
-            override fun onResponse(call: Call<List<Artista>>, response: Response<List<Artista>>) {
+        call.enqueue(object : Callback<List<Coleccionista>> {
+            override fun onResponse(call: Call<List<Coleccionista>>, response: Response<List<Coleccionista>>) {
                 if (response.isSuccessful) {
-                    artists = response.body() ?: emptyList()
-                    adapter.setData(artists)
+                    collectors = response.body() ?: emptyList()
+                    adapter.setData(collectors)
                 } else {
-                    Toast.makeText(context, "Error cargando artistas", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error cargando coleccionistas", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<List<Artista>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Coleccionista>>, t: Throwable) {
                 t.printStackTrace()
-                Toast.makeText(context, "Error cargando artistas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error cargando coleccionistas", Toast.LENGTH_SHORT).show()
             }
         })
     }
