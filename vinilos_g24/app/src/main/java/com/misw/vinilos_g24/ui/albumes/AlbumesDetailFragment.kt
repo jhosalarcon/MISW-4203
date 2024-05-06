@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
@@ -24,20 +25,24 @@ class AlbumesDetailFragment : Fragment() {
     private val albumId by lazy { arguments?.getInt("ALBUM_ID") ?: 0 }
     private lateinit var album: Album
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_detail_albumes, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_detail_albumes, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AlbumDetailAdapter()
         recyclerView.adapter = adapter
 
-        loadAlbumDetail()
+        val albumId = arguments?.getInt(ARG_ALBUM_ID) ?: 0
+        loadAlbumDetail(albumId)
+        return view
     }
-    private fun loadAlbumDetail() {
+
+
+    private fun loadAlbumDetail(albumId: Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://146.148.107.196:3000/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -45,17 +50,42 @@ class AlbumesDetailFragment : Fragment() {
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
         val call = apiService.getAlbumById(albumId)
-
         call.enqueue(object : Callback<Album> {
             override fun onResponse(call: Call<Album>, response: Response<Album>) {
-                    response.body()?.let { adapter.UpdateAlbum(it) }
+                if (response.isSuccessful) {
+                    val album = response.body()
+                    if (album != null) {
+                        adapter.updateAlbum(album)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "No se recibió ningún detalle de álbum",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
 
             override fun onFailure(call: Call<Album>, t: Throwable) {
                 t.printStackTrace()
-                Toast.makeText(context, "Error cargando detalle de album", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
+    }
+
+    companion object {
+        private const val ARG_ALBUM_ID = "albumId"
+        fun newInstance(albumId: Int): AlbumesDetailFragment {
+            val fragment = AlbumesDetailFragment()
+            val args = Bundle()
+            args.putInt(ARG_ALBUM_ID, albumId)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

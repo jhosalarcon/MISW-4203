@@ -1,6 +1,5 @@
 package com.misw.vinilos_g24.ui.albumes
 
-import AlbumListAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class AlbumesListFragment : Fragment() {
+class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
 
     private var _binding: FragmentAlbumesBinding? = null
 
@@ -35,7 +34,7 @@ class AlbumesListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_albumes, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = AlbumListAdapter()
+        adapter = AlbumListAdapter(this)
         recyclerView.adapter = adapter
 
         loadAlbums()
@@ -70,5 +69,13 @@ class AlbumesListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onAlbumClick(album: Int) {
+       val detalleAlbumFragment = AlbumesDetailFragment.newInstance(album)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detalleAlbumFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

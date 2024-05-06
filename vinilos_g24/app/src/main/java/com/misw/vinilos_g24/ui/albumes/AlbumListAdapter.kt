@@ -1,18 +1,17 @@
+package com.misw.vinilos_g24.ui.albumes
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
-import com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment
 import com.squareup.picasso.Picasso
 
-
-class AlbumListAdapter : RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>() {
+class AlbumListAdapter(private val listener: OnAlbumClickListener) :
+    RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>() {
 
     private var albums: List<Album> = emptyList()
 
@@ -26,17 +25,16 @@ class AlbumListAdapter : RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>(
         return AlbumViewHolder(view)
     }
 
+    interface OnAlbumClickListener {
+        fun onAlbumClick(album: Int)
+    }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val album = albums[position]
         holder.bind(album)
+
         holder.itemView.setOnClickListener {
-            val fragmentManager = (holder.itemView.context as FragmentActivity).supportFragmentManager
-            val transaction = fragmentManager.beginTransaction()
-            val fragment = AlbumesDetailFragment()
-            transaction.replace(R.id.fragment_container, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            listener.onAlbumClick(album.id)
         }
     }
 
@@ -52,17 +50,10 @@ class AlbumListAdapter : RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>(
 
         fun bind(album: Album) {
             albumNameTextView.text = album.name
-            if (album.cover != null) {
-                Picasso.get()
-                    .load(album.cover)
-                    .into(albumImageView)
-            } else {
-                // Set placeholder image if cover URL is null
-                Picasso.get()
-                    .load("https://placehold.co/")  .into(albumImageView)
-            }
+            Picasso.get()
+                .load(album.cover)
+                .into(albumImageView)
 
-            val performersString = album.performers.joinToString(", ")
             releaseTextView.text = album.releaseDate
             genreTextView.text = album.genre
         }
