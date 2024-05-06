@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
@@ -36,29 +35,12 @@ class AlbumesListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_albumes, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = AlbumListAdapter { selectedAlbum ->
-            val bundle = Bundle().apply {
-                putSerializable("album", selectedAlbum)
-            }
-            findNavController().navigate(R.id.fragment_container, bundle)
-        }
+        adapter = AlbumListAdapter()
         recyclerView.adapter = adapter
 
         loadAlbums()
         return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val adapter = AlbumListAdapter { selectedAlbum ->
-            val bundle = Bundle().apply {
-                putSerializable("album", selectedAlbum)
-            }
-            findNavController().navigate(R.id.fragment_container, bundle)
-        }
-    }
-
 
     private fun loadAlbums() {
         val retrofit = Retrofit.Builder()
@@ -68,7 +50,6 @@ class AlbumesListFragment : Fragment() {
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
         val call = apiService.getAlbums()
-        
 
         call.enqueue(object : Callback<List<Album>> {
             override fun onResponse(call: Call<List<Album>>, response: Response<List<Album>>) {
@@ -86,7 +67,6 @@ class AlbumesListFragment : Fragment() {
             }
         })
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

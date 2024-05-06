@@ -1,19 +1,20 @@
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
+import com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment
 import com.squareup.picasso.Picasso
 
 
-class AlbumListAdapter(private val clickListener: (Album) -> Unit) :
-    RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>() {
+class AlbumListAdapter : RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder>() {
 
     private var albums: List<Album> = emptyList()
-    private var album: Album? = null
 
     fun setData(albums: List<Album>) {
         this.albums = albums
@@ -29,28 +30,18 @@ class AlbumListAdapter(private val clickListener: (Album) -> Unit) :
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val album = albums[position]
         holder.bind(album)
-        /* holder.itemView.setOnClickListener {
-             val fragmentManager = (holder.itemView.context as FragmentActivity).supportFragmentManager
-             val transaction = fragmentManager.beginTransaction()
-             val fragment = AlbumesDetailFragment()
-             transaction.replace(R.id.fragment_container, fragment)
-             transaction.addToBackStack(null)
-             transaction.commit()
-         }*/
+        holder.itemView.setOnClickListener {
+            val fragmentManager = (holder.itemView.context as FragmentActivity).supportFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            val fragment = AlbumesDetailFragment()
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     override fun getItemCount(): Int {
         return albums.size
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(album: Album) {
-            itemView.findViewById<TextView>(R.id.albumImageView).text = album.cover
-            itemView.findViewById<TextView>(R.id.albumNameTextView).text = album.name
-            itemView.findViewById<TextView>(R.id.genreTextView).text = album.genre
-            itemView.findViewById<TextView>(R.id.releaseTextView).text = album.releaseDate
-            itemView.setOnClickListener { _ -> clickListener(album) }
-        }
     }
 
     inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -68,7 +59,7 @@ class AlbumListAdapter(private val clickListener: (Album) -> Unit) :
             } else {
                 // Set placeholder image if cover URL is null
                 Picasso.get()
-                    .load("https://placehold.co/").into(albumImageView)
+                    .load("https://placehold.co/")  .into(albumImageView)
             }
 
             val performersString = album.performers.joinToString(", ")
