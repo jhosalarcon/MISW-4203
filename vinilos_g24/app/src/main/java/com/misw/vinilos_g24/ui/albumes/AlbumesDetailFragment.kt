@@ -22,8 +22,6 @@ class AlbumesDetailFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AlbumDetailAdapter
-    private val albumId by lazy { arguments?.getInt("ALBUM_ID") ?: 0 }
-    private lateinit var album: Album
 
     override fun onCreateView(
         inflater: LayoutInflater,
