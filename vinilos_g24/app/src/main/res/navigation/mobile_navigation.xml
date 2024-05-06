@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home"
-    android:background="@color/darkBlue">
+    android:background="@color/darkBlue"
+    app:startDestination="@+id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -20,19 +20,20 @@
 
     <fragment
         android:id="@+id/nav_premios"
-        android:name="com.misw.vinilos_g24.ui.home.HomeFragment"
+        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment"
         android:label="@string/menu_premios"
-        tools:layout="@layout/fragment_home" />
+        app:layout="@layout/fragment_detail_albumes" />
 
     <fragment
         android:id="@+id/nav_coleccionistas"
-        android:name="com.misw.vinilos_g24.ui.home.HomeFragment"
+        android:name="com.misw.vinilos_g24.ui.coleccionistas.ColeccionistaFragment"
         android:label="@string/menu_coleccionistas"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_albumes"
-        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesFragment"
+        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesListFragment"
         android:label="@string/menu_albumes"
         app:layout="@layout/fragment_albumes" />
+
 </navigation>
