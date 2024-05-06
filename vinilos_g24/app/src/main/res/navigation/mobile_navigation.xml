@@ -32,7 +32,13 @@
 
     <fragment
         android:id="@+id/nav_albumes"
-        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesFragment"
+        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesListFragment"
         android:label="@string/menu_albumes"
         app:layout="@layout/fragment_albumes" />
+
+    <fragment
+        android:id="@+id/nav_album_detail"
+        android:name="com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment"
+        android:label="@string/menu_albumes"
+        app:layout="@layout/fragment_detail_albumes" />
 </navigation>

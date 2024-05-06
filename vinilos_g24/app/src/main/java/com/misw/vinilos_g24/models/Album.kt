@@ -1,4 +1,5 @@
 package com.misw.vinilos_g24.models
+import java.io.Serializable
 
 data class Album(
     val id: Int,
@@ -11,4 +12,4 @@ data class Album(
     val tracks: List<String>,
     val performers: List<String>,
     val comments: List<String>
-)
+): Serializable
