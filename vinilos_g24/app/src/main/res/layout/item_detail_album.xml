@@ -8,7 +8,6 @@
     android:padding="16dp"
     >
 
-
     <LinearLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"

@@ -66,13 +66,14 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             }
         })
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     override fun onAlbumClick(album: Int) {
-       val detalleAlbumFragment = AlbumesDetailFragment.newInstance(album)
+        val detalleAlbumFragment = AlbumesDetailFragment.newInstance(album)
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detalleAlbumFragment)
             .addToBackStack(null)

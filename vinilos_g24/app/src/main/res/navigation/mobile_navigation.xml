@@ -6,6 +6,14 @@
     android:background="@color/darkBlue"
     app:startDestination="@+id/nav_home">
 
+    <action
+        android:id="@+id/action_nav_albumes_to_albumesDetailFragment"
+        app:destination="@id/nav_albumesDetailFragment">
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </action>
+
     <fragment
         android:id="@+id/nav_home"
         android:name="com.misw.vinilos_g24.ui.home.HomeFragment"
@@ -19,9 +27,9 @@
         tools:layout="@layout/fragment_artistas" />
 
     <fragment
-        android:id="@+id/nav_premios"
+        android:id="@+id/nav_albumesDetailFragment"
         android:name="com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment"
-        android:label="@string/menu_premios"
+        android:label="@string/menu_albumes"
         app:layout="@layout/fragment_detail_albumes" />
 
     <fragment
@@ -34,6 +42,14 @@
         android:id="@+id/nav_albumes"
         android:name="com.misw.vinilos_g24.ui.albumes.AlbumesListFragment"
         android:label="@string/menu_albumes"
-        app:layout="@layout/fragment_albumes" />
+        app:layout="@layout/fragment_albumes">
+        <action
+            android:id="@+id/action_nav_albumes_to_albumesDetailFragment"
+            app:destination="@id/nav_albumesDetailFragment">
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+        </action>
+    </fragment>
 
 </navigation>

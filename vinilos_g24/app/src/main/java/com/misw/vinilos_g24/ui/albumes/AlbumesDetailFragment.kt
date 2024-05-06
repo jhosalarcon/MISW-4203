@@ -36,6 +36,7 @@ class AlbumesDetailFragment : Fragment() {
 
         val albumId = arguments?.getInt(ARG_ALBUM_ID) ?: 0
         loadAlbumDetail(albumId)
+        onResume()
         return view
     }
 
@@ -62,17 +63,20 @@ class AlbumesDetailFragment : Fragment() {
                         ).show()
                     }
                 } else {
-                    Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "OnResponse Error cargando detalle de álbum", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
 
             override fun onFailure(call: Call<Album>, t: Throwable) {
                 t.printStackTrace()
-                Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "onFailure Error cargando detalle de álbum", Toast.LENGTH_SHORT)
                     .show()
             }
         })
+
+
+
     }
 
     companion object {
