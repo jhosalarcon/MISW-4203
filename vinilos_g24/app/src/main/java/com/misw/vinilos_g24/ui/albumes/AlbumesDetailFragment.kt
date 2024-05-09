@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,13 +37,27 @@ class AlbumesDetailFragment : Fragment() {
 
         val albumId = arguments?.getInt(ARG_ALBUM_ID) ?: 0
         loadAlbumDetail(albumId)
+        onResume()
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            val fragmentManager = requireActivity().supportFragmentManager
+            if (fragmentManager.backStackEntryCount > 0) {
+                fragmentManager.popBackStack()
+            } else {
+                requireActivity().finish()
+            }
+        }
     }
 
 
     private fun loadAlbumDetail(albumId: Int) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://146.148.107.196:3000/")
+            .baseUrl("http://34.28.23.142:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -62,17 +77,27 @@ class AlbumesDetailFragment : Fragment() {
                         ).show()
                     }
                 } else {
-                    Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        "OnResponse Error cargando detalle de álbum",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
 
             override fun onFailure(call: Call<Album>, t: Throwable) {
                 t.printStackTrace()
-                Toast.makeText(context, "Error cargando detalle de álbum", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "onFailure Error cargando detalle de álbum",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         })
+
+
     }
 
     companion object {
