@@ -1,4 +1,5 @@
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,15 +20,17 @@ class ArtistaDetailAdapter : RecyclerView.Adapter<ArtistaDetailAdapter.ArtistaDe
         return ArtistaDetailViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ArtistaDetailViewHolder, position: Int) {
-        val artistaView = holder.itemView.findViewById<ImageView>(R.id.albumImageView)
-        val nameTextView = holder.itemView.findViewById<TextView>(R.id.albumNameTextView)
-        val descTextView = holder.itemView.findViewById<TextView>(R.id.releaseTextView)
-        val releaseDateTextView = holder.itemView.findViewById<TextView>(R.id.genreTextView)
+        val artistaView = holder.itemView.findViewById<ImageView>(R.id.artistImageView)
+        val nameTextView = holder.itemView.findViewById<TextView>(R.id.artistNameTextView)
+        val descTextView = holder.itemView.findViewById<TextView>(R.id.artistDescTextView)
+        val birthDateTextView = holder.itemView.findViewById<TextView>(R.id.birthDateTextView)
         artista?.let {
-            Picasso.get().load(it.name).into(artistaView)
+            Picasso.get().load(it.image).into(artistaView)
             nameTextView.text = it.name
             descTextView.text = it.description
+            birthDateTextView.text = "Fecha de nacimiento: " + it.birthDate.toString()
         }
     }
 

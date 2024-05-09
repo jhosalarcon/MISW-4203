@@ -54,7 +54,7 @@ class ArtistaListAdapter(private val listener: ArtistaListAdapter.OnArtistaClick
                 .load(artista.image)
                 .into(artistImageView)
             artistNameTextView.text = artista.name
-            birthDateTextView.text = artista.birthDate.toString() // Assuming 'artista' has a 'birthDate' property
+            birthDateTextView.text = artista.birthDate.toString()
         }
     }
 }

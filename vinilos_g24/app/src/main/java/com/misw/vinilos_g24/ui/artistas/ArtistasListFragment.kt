@@ -15,7 +15,6 @@ import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentArtistasBinding
 import com.misw.vinilos_g24.models.Artista
 import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,9 +76,9 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
     }
 
     override fun onArtistaClick(album: Int) {
-        val detalleArtistFragment = AlbumesDetailFragment.newInstance(album)
+        val detalleArtistFragment = ArtistaDetailFragment.newInstance(album)
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, detalleArtistFragment, "detalleAlbumFragment")
+        transaction.replace(R.id.fragment_container_art, detalleArtistFragment, "detalleAlbumFragment")
         transaction.addToBackStack(null)
         transaction.commit()
 
