@@ -86,12 +86,12 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
         transaction.commit()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            // Encuentra el fragmento detalleAlbumFragment en el contenedor
-            val detailFragment = requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
-            // Oculta el fragmento detalleAlbumFragment si existe
+            val detailFragment =
+                requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
             detailFragment?.let {
                 requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
             }
         }, 5000)
     }
+
 }

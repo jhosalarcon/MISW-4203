@@ -12,12 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.misw.vinilos_g24.databinding.ActivityMainBinding
 
-interface OnBackPressedListener {
-    fun onBackPressed()
-}
-
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
