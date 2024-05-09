@@ -20,10 +20,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-interface OnBackPressedListener {
-    fun onBackPressed()
-}
-
 class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
 
     private var _binding: FragmentAlbumesBinding? = null

@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/nav_artistas"
-        android:name="com.misw.vinilos_g24.ui.artistas.ArtistasFragment"
+        android:name="com.misw.vinilos_g24.ui.artistas.ArtistasListFragment"
         android:label="@string/menu_artistas"
         tools:layout="@layout/fragment_artistas" />
 

@@ -1,3 +1,4 @@
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,8 @@ import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Artista
 import com.squareup.picasso.Picasso
 
-class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.ArtistViewHolder>() {
+class ArtistaListAdapter(private val listener: ArtistaListAdapter.OnArtistaClickListener)
+    : RecyclerView.Adapter<ArtistaListAdapter.ArtistViewHolder>() {
 
     private var artists: List<Artista> = emptyList()
 
@@ -22,9 +24,19 @@ class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.ArtistViewHolder>() {
         return ArtistViewHolder(view)
     }
 
+    interface OnArtistaClickListener {
+        fun onArtistaClick(artista: Int)
+
+    }
+
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         val artista = artists[position]
         holder.bind(artista)
+        holder.itemView.setOnClickListener {
+            listener.onArtistaClick(artista.id)
+
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -38,15 +50,9 @@ class ArtistaAdapter : RecyclerView.Adapter<ArtistaAdapter.ArtistViewHolder>() {
 
         fun bind(artista: Artista) {
 
-             if (artista.image != null) {
-                Picasso.get()
-                    .load(artista.image)
-                    .into(artistImageView)
-            } else {
-                // Set placeholder image if cover URL is null
-                Picasso.get()
-                    .load("https://placehold.co/")  .into(artistImageView)
-            }
+            Picasso.get()
+                .load(artista.image)
+                .into(artistImageView)
             artistNameTextView.text = artista.name
             birthDateTextView.text = artista.birthDate.toString() // Assuming 'artista' has a 'birthDate' property
         }

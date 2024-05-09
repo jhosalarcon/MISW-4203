@@ -1,7 +1,9 @@
 package com.misw.vinilos_g24.ui.artistas
 
-import ArtistaAdapter
+import ArtistaListAdapter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +15,19 @@ import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentArtistasBinding
 import com.misw.vinilos_g24.models.Artista
 import com.misw.vinilos_g24.network.NetworkServiceAdapter
+import com.misw.vinilos_g24.ui.albumes.AlbumesDetailFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ArtistasFragment : Fragment() {
+class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListener {
 
     private var _binding: FragmentArtistasBinding? = null
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ArtistaAdapter
+    private lateinit var adapter: ArtistaListAdapter
     private lateinit var artists: List<Artista>
 
     override fun onCreateView(
@@ -35,7 +38,7 @@ class ArtistasFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_artistas, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ArtistaAdapter()
+        adapter = ArtistaListAdapter(this)
         recyclerView.adapter = adapter
 
         loadArtists()
@@ -71,5 +74,21 @@ class ArtistasFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onArtistaClick(album: Int) {
+        val detalleArtistFragment = AlbumesDetailFragment.newInstance(album)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, detalleArtistFragment, "detalleAlbumFragment")
+        transaction.addToBackStack(null)
+        transaction.commit()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val detailFragment =
+                requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
+            detailFragment?.let {
+                requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
+            }
+        }, 5000)
     }
 }
