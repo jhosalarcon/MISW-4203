@@ -17,6 +17,10 @@ interface NetworkServiceAdapter {
     @GET("musicians")
     fun getArtists(): Call<List<Artista>>
 
+    @GET("musicians/{id}")
+    fun getMusiciansById(@Path("id") artistaId: Int): Call<Artista>
+
+
     @GET("collectors")
     fun getCollectors(): Call<List<Coleccionista>>
 }

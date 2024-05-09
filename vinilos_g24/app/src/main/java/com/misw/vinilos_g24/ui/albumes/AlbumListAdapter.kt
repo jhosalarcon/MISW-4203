@@ -27,6 +27,7 @@ class AlbumListAdapter(private val listener: OnAlbumClickListener) :
 
     interface OnAlbumClickListener {
         fun onAlbumClick(album: Int)
+
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
@@ -35,6 +36,7 @@ class AlbumListAdapter(private val listener: OnAlbumClickListener) :
 
         holder.itemView.setOnClickListener {
             listener.onAlbumClick(album.id)
+
         }
     }
 
