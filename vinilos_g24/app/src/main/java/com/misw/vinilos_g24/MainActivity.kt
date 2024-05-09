@@ -2,7 +2,6 @@ package com.misw.vinilos_g24
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -12,6 +11,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.misw.vinilos_g24.databinding.ActivityMainBinding
+
+interface OnBackPressedListener {
+    fun onBackPressed()
+}
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +38,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_artistas, R.id.nav_albumes, R.id.nav_albumesDetailFragment, R.id.nav_coleccionistas
+                R.id.nav_home,
+                R.id.nav_artistas,
+                R.id.nav_albumes,
+                R.id.nav_albumesDetailFragment,
+                R.id.nav_coleccionistas
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -51,14 +60,5 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    fun showNavigationBarAndHeader(){
-        supportActionBar?.show()
-        binding.navView.visibility = View.VISIBLE
-    }
-    fun hideNavigationBarAndHeader(){
-        supportActionBar?.hide()
-        binding.navView.visibility = View.GONE
     }
 }
