@@ -1,6 +1,8 @@
 package com.misw.vinilos_g24.ui.albumes
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +45,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
 
     private fun loadAlbums() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://146.148.107.196:3000/")
+            .baseUrl("http://34.28.23.142:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -66,16 +68,26 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             }
         })
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     override fun onAlbumClick(album: Int) {
-       val detalleAlbumFragment = AlbumesDetailFragment.newInstance(album)
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, detalleAlbumFragment)
-            .addToBackStack(null)
-            .commit()
+        val detalleAlbumFragment = AlbumesDetailFragment.newInstance(album)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, detalleAlbumFragment, "detalleAlbumFragment")
+        transaction.addToBackStack(null)
+        transaction.commit()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val detailFragment =
+                requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
+            detailFragment?.let {
+                requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
+            }
+        }, 5000)
     }
+
 }
