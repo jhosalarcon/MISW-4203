@@ -63,5 +63,6 @@ dependencies {
     testImplementation("junit:junit:4.12'")
     androidTestImplementation("com.android.support.test:runner:1.0.1")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1")
 }
