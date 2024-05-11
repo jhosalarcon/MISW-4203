@@ -13,20 +13,11 @@ class AlbumesViewModel(private val repository: AlbumRepository) : ViewModel() {
     }
     val text: LiveData<String> = _text
 
-
     private val _albums = repository.albums
     val albums: MutableLiveData<List<Album>?> = _albums
-
-    private val _albumDetails = repository.albumDetails
-    val albumDetails: MutableLiveData<Album?> = _albumDetails
 
     suspend fun fetchAlbums() {
         repository.fetchAlbums()
     }
-
-    suspend fun fetchAlbumDetails(albumId: Int) {
-        repository.fetchAlbumDetails(albumId)
-    }
-
 
 }
