@@ -1,6 +1,7 @@
 package com.misw.vinilos_g24.ui.artistas
 
 import ArtistaDetailAdapter
+import NetworkServiceAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
-import com.misw.vinilos_g24.models.Artista
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -35,8 +33,10 @@ class ArtistaDetailFragment : Fragment() {
         adapter = ArtistaDetailAdapter()
         recyclerView.adapter = adapter
 
-        val artistaId = arguments?.getInt(ARG_ARTISTA_ID) ?: 0
-        loadAlbumDetail(artistaId)
+        lifecycleScope.launch {
+            val artistId = arguments?.getInt(ARG_ARTISTA_ID) ?: 0
+            loadArtistDetail(artistId)
+        }
         onResume()
         return view
     }
@@ -54,51 +54,26 @@ class ArtistaDetailFragment : Fragment() {
         }
     }
 
-
-    private fun loadAlbumDetail(artistaId: Int) {
+    private suspend fun loadArtistDetail(artistId: Int) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.28.23.142:3000/")
+            .baseUrl("http://10.0.2.2:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getMusiciansById(artistaId)
-        call.enqueue(object : Callback<Artista> {
-            override fun onResponse(call: Call<Artista>, response: Response<Artista>) {
-                if (response.isSuccessful) {
-                    val artista = response.body()
-                    if (artista != null) {
-                        adapter.updateArtista(artista)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "No se recibió ningún detalle de artista",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    Toast.makeText(
-                        context,
-                        "OnResponse Error cargando detalle de artista",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
-
-            override fun onFailure(call: Call<Artista>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(
-                    context,
-                    "onFailure Error cargando detalle de artista",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        })
-
-
+        try {
+            val artista = apiService.getMusiciansById(artistId)
+            adapter.updateArtista(artista)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                context,
+                "Error cargando detalle del artista: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
+
 
     companion object {
         private const val ARG_ARTISTA_ID = "artistaId"
