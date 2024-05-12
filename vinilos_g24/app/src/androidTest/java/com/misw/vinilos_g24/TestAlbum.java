@@ -27,7 +27,7 @@ public class TestAlbum {
     public ActivityScenarioRule<MainActivity> mActivityTestRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTest2() throws InterruptedException {
+    public void AlbumEncontrado() throws InterruptedException {
         Thread.sleep(3000);
         onView(withContentDescription("Open navigation drawer")).perform(click());
         onView(withText("Álbumes")).perform(click());
