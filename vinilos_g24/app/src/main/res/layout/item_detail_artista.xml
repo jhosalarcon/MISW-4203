@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:baselineAligned="false"
+    android:layout_height="match_parent"
+    android:layout_marginTop="100dp"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/fragment_container_art"
+        android:layout_width="0dp"
+        android:layout_height="362dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/artistImageView"
+            android:layout_width="391dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/artistNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/artistDescTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/birthDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="211dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+</LinearLayout>
