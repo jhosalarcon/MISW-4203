@@ -24,7 +24,7 @@ interface NetworkServiceAdapter {
     suspend fun getCollectors(): List<Coleccionista>
 
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:3000/"
+        private const val BASE_URL = "http://34.105.6.205/"
         private var instance: NetworkServiceAdapter? = null
 
         fun getInstance(context: Context): NetworkServiceAdapter {
