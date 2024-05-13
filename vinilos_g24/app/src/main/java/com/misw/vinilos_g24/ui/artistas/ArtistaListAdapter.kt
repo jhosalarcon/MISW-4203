@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Artista
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class ArtistaListAdapter(private val listener: ArtistaListAdapter.OnArtistaClickListener)
@@ -34,9 +36,7 @@ class ArtistaListAdapter(private val listener: ArtistaListAdapter.OnArtistaClick
         holder.bind(artista)
         holder.itemView.setOnClickListener {
             listener.onArtistaClick(artista.id)
-
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -49,9 +49,10 @@ class ArtistaListAdapter(private val listener: ArtistaListAdapter.OnArtistaClick
         private val birthDateTextView: TextView = itemView.findViewById(R.id.birthDateTextView)
 
         fun bind(artista: Artista) {
-
             Picasso.get()
                 .load(artista.image)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(artistImageView)
             artistNameTextView.text = artista.name
             birthDateTextView.text = artista.birthDate.toString()

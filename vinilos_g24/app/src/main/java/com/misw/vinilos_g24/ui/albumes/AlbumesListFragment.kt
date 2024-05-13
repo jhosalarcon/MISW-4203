@@ -1,5 +1,6 @@
 package com.misw.vinilos_g24.ui.albumes
 
+import NetworkServiceAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,15 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentAlbumesBinding
 import com.misw.vinilos_g24.models.Album
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -39,34 +38,30 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
         adapter = AlbumListAdapter(this)
         recyclerView.adapter = adapter
 
-        loadAlbums()
+        lifecycleScope.launch {
+            loadAlbums()
+        }
         return view
     }
 
-    private fun loadAlbums() {
+    private suspend fun loadAlbums() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.28.23.142:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getAlbums()
-
-        call.enqueue(object : Callback<List<Album>> {
-            override fun onResponse(call: Call<List<Album>>, response: Response<List<Album>>) {
-                if (response.isSuccessful) {
-                    albums = response.body() ?: emptyList()
-                    adapter.setData(albums)
-                } else {
-                    Toast.makeText(context, "Error cargando álbumes", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<List<Album>>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(context, "Error cargando álbumes", Toast.LENGTH_SHORT).show()
-            }
-        })
+        try {
+            val albums = apiService.getAlbums()
+            adapter.setData(albums)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                context,
+                "Error cargando detalle de álbum: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onDestroyView() {
@@ -87,7 +82,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             detailFragment?.let {
                 requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
             }
-        }, 5000)
+        }, 10000)
     }
 
 }
