@@ -26,6 +26,7 @@ public class TestArtista {
         Thread.sleep(3000);
         onView(withContentDescription("Open navigation drawer")).perform(click());
         onView(withText("Artistas")).perform(click());
+        Thread.sleep(3000);
         onView(withText("carlos")).check(matches(isDisplayed()));
     }
     @Test
@@ -33,6 +34,8 @@ public class TestArtista {
         Thread.sleep(3000);
         onView(withContentDescription("Open navigation drawer")).perform(click());
         onView(withText("Artistas")).perform(click());
+        Thread.sleep(3000);
         onView(withText("carlos quinto")).check(doesNotExist());
     }
+
 }

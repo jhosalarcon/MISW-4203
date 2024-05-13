@@ -87,7 +87,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             detailFragment?.let {
                 requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
             }
-        }, 5000)
+        }, 10000)
     }
 
 }
