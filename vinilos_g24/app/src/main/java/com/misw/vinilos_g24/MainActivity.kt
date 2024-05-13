@@ -31,11 +31,8 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView
 
         binding.navView.viewTreeObserver.addOnGlobalLayoutListener {
-            // Configurar el NavController con el FragmentContainerView
-            navController = findNavController(R.id.nav_host_fragment_content_main)
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            appBarConfiguration = AppBarConfiguration(
+        navController = findNavController(R.id.nav_host_fragment_content_main)
+        appBarConfiguration = AppBarConfiguration(
                 setOf(
                     R.id.nav_home,
                     R.id.nav_artistas,
@@ -50,8 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+       menuInflater.inflate(R.menu.main, menu)
         supportActionBar!!.title = "Vinilos"
         return true
     }

@@ -17,7 +17,7 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
-        android:gravity="right"
+        android:gravity="end"
         android:paddingTop="10dp"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
