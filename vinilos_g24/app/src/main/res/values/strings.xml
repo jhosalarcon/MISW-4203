@@ -11,4 +11,6 @@
     <string name="menu_albumes">Álbumes</string>
     <string name="menu_premios">Premios</string>
     <string name="menu_coleccionistas">Coleccionistas</string>
+    <string name="imagen_del_album">Imagen del álbum</string>
+    <string name="imagen_del_artista">Imagen del artista</string>
 </resources>
