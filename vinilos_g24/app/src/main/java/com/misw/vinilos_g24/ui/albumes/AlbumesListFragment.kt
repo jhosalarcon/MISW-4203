@@ -45,7 +45,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
 
     private fun loadAlbums() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.28.23.142:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -87,7 +87,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             detailFragment?.let {
                 requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
             }
-        }, 5000)
+        }, 10000)
     }
 
 }

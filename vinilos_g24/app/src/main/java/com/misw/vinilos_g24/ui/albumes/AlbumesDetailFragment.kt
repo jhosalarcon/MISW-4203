@@ -57,7 +57,7 @@ class AlbumesDetailFragment : Fragment() {
 
     private fun loadAlbumDetail(albumId: Int) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.28.23.142:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
