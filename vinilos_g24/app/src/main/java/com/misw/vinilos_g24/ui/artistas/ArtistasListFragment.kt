@@ -1,6 +1,7 @@
 package com.misw.vinilos_g24.ui.artistas
 
 import ArtistaListAdapter
+import NetworkServiceAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,15 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentArtistasBinding
 import com.misw.vinilos_g24.models.Artista
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -40,34 +39,32 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
         adapter = ArtistaListAdapter(this)
         recyclerView.adapter = adapter
 
-        loadArtists()
+        lifecycleScope.launch {
+            loadArtists()
+        }
+
         return view
     }
 
-    private fun loadArtists() {
+
+    private suspend fun loadArtists() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.28.23.142:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getArtists()
-
-        call.enqueue(object : Callback<List<Artista>> {
-            override fun onResponse(call: Call<List<Artista>>, response: Response<List<Artista>>) {
-                if (response.isSuccessful) {
-                    artists = response.body() ?: emptyList()
-                    adapter.setData(artists)
-                } else {
-                    Toast.makeText(context, "Error cargando artistas", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<List<Artista>>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(context, "Error cargando artistas", Toast.LENGTH_SHORT).show()
-            }
-        })
+        try {
+            val artists = apiService.getArtists()
+            adapter.setData(artists)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                context,
+                "Error cargando artistas: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onDestroyView() {
@@ -75,10 +72,14 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
         _binding = null
     }
 
-    override fun onArtistaClick(album: Int) {
-        val detalleArtistFragment = ArtistaDetailFragment.newInstance(album)
+    override fun onArtistaClick(artista: Int) {
+        val detalleArtistFragment = ArtistaDetailFragment.newInstance(artista)
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container_art, detalleArtistFragment, "detalleAlbumFragment")
+        transaction.replace(
+            R.id.fragment_container_art,
+            detalleArtistFragment,
+            "detalleAlbumFragment"
+        )
         transaction.addToBackStack(null)
         transaction.commit()
 

@@ -1,9 +1,11 @@
 package com.misw.vinilos_g24
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -16,7 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var navController: NavController? = null
 
+    @SuppressLint("SuspiciousIndentation")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,32 +31,30 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home,
-                R.id.nav_artistas,
-                R.id.nav_albumes,
-                R.id.nav_albumesDetailFragment,
-                R.id.nav_coleccionistas
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
 
+        binding.navView.viewTreeObserver.addOnGlobalLayoutListener {
+        navController = findNavController(R.id.nav_host_fragment_content_main)
+        appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.nav_home,
+                    R.id.nav_artistas,
+                    R.id.nav_albumes,
+                    R.id.nav_albumesDetailFragment,
+                    R.id.nav_coleccionistas
+                ), drawerLayout
+            )
+            setupActionBarWithNavController(navController!!, appBarConfiguration)
+            navView.setupWithNavController(navController!!)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+       menuInflater.inflate(R.menu.main, menu)
         supportActionBar!!.title = "Vinilos"
         return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return navController?.navigateUp(appBarConfiguration) ?: super.onSupportNavigateUp()
     }
 }

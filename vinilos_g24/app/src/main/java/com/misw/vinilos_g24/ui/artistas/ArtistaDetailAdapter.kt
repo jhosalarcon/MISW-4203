@@ -1,4 +1,3 @@
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Artista
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class ArtistaDetailAdapter : RecyclerView.Adapter<ArtistaDetailAdapter.ArtistaDetailViewHolder>() {
@@ -27,7 +28,11 @@ class ArtistaDetailAdapter : RecyclerView.Adapter<ArtistaDetailAdapter.ArtistaDe
         val descTextView = holder.itemView.findViewById<TextView>(R.id.artistDescTextView)
         val birthDateTextView = holder.itemView.findViewById<TextView>(R.id.birthDateTextView)
         artista?.let {
-            Picasso.get().load(it.image).into(artistaView)
+            Picasso.get()
+                .load(it.image)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(artistaView)
             nameTextView.text = it.name
             descTextView.text = it.description
             birthDateTextView.text = "Fecha de nacimiento: " + it.birthDate.toString()
@@ -38,10 +43,11 @@ class ArtistaDetailAdapter : RecyclerView.Adapter<ArtistaDetailAdapter.ArtistaDe
         return if (artista != null) 1 else 0
     }
 
-    fun updateArtista(artista: Artista){
+    fun updateArtista(artista: Artista) {
         this.artista = artista
         notifyDataSetChanged()
     }
+
     class ArtistaDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }

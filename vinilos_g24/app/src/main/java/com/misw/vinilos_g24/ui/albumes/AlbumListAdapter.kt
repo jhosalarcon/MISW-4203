@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class AlbumListAdapter(private val listener: OnAlbumClickListener) :
@@ -54,6 +56,8 @@ class AlbumListAdapter(private val listener: OnAlbumClickListener) :
             albumNameTextView.text = album.name
             Picasso.get()
                 .load(album.cover)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(albumImageView)
 
             releaseTextView.text = album.releaseDate
