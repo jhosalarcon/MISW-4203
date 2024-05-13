@@ -49,7 +49,7 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
 
     private suspend fun loadArtists() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

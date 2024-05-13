@@ -56,7 +56,7 @@ class ArtistaDetailFragment : Fragment() {
 
     private suspend fun loadArtistDetail(artistId: Int) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
