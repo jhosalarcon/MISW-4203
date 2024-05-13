@@ -1,21 +1,20 @@
 package com.misw.vinilos_g24.ui.coleccionistas
 
 import ColeccionistaAdapter
+import NetworkServiceAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentColeccionistasBinding
 import com.misw.vinilos_g24.models.Coleccionista
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -38,34 +37,31 @@ class ColeccionistaFragment : Fragment() {
         adapter = ColeccionistaAdapter()
         recyclerView.adapter = adapter
 
-        loadCollectors()
+        lifecycleScope.launch {
+            loadCollectors()
+        }
         return view
     }
 
-    private fun loadCollectors() {
+
+    private suspend fun loadCollectors() {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getCollectors()
-
-        call.enqueue(object : Callback<List<Coleccionista>> {
-            override fun onResponse(call: Call<List<Coleccionista>>, response: Response<List<Coleccionista>>) {
-                if (response.isSuccessful) {
-                    collectors = response.body() ?: emptyList()
-                    adapter.setData(collectors)
-                } else {
-                    Toast.makeText(context, "Error cargando coleccionistas", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<List<Coleccionista>>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(context, "Error cargando coleccionistas", Toast.LENGTH_SHORT).show()
-            }
-        })
+        try {
+            val collectors = apiService.getCollectors()
+            adapter.setData(collectors)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                context,
+                "Error cargando coleccionistas: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onDestroyView() {

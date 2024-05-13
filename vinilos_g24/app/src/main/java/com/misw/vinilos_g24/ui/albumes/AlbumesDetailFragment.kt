@@ -1,6 +1,7 @@
 package com.misw.vinilos_g24.ui.albumes
 
 import AlbumDetailAdapter
+import NetworkServiceAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
-import com.misw.vinilos_g24.models.Album
-import com.misw.vinilos_g24.network.NetworkServiceAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -35,8 +33,10 @@ class AlbumesDetailFragment : Fragment() {
         adapter = AlbumDetailAdapter()
         recyclerView.adapter = adapter
 
-        val albumId = arguments?.getInt(ARG_ALBUM_ID) ?: 0
-        loadAlbumDetail(albumId)
+        lifecycleScope.launch {
+            val albumId = arguments?.getInt(ARG_ALBUM_ID) ?: 0
+            loadAlbumDetail(albumId)
+        }
         onResume()
         return view
     }
@@ -54,51 +54,26 @@ class AlbumesDetailFragment : Fragment() {
         }
     }
 
-
-    private fun loadAlbumDetail(albumId: Int) {
+    private suspend fun loadAlbumDetail(albumId: Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://34.105.90.15/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
-        val call = apiService.getAlbumById(albumId)
-        call.enqueue(object : Callback<Album> {
-            override fun onResponse(call: Call<Album>, response: Response<Album>) {
-                if (response.isSuccessful) {
-                    val album = response.body()
-                    if (album != null) {
-                        adapter.updateAlbum(album)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "No se recibió ningún detalle de álbum",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    Toast.makeText(
-                        context,
-                        "OnResponse Error cargando detalle de álbum",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
-
-            override fun onFailure(call: Call<Album>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(
-                    context,
-                    "onFailure Error cargando detalle de álbum",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        })
-
-
+        try {
+            val album = apiService.getAlbumById(albumId)
+            adapter.updateAlbum(album)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                context,
+                "Error cargando detalle de álbum: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
+
 
     companion object {
         private const val ARG_ALBUM_ID = "albumId"

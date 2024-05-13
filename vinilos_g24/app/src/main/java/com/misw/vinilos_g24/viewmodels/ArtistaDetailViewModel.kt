@@ -17,7 +17,7 @@ class ArtistaDetailViewModel(private val repository: ArtistaRepository) : ViewMo
     private val _artistDetails = repository.artistDetails
     val artistDetails: MutableLiveData<Artista?> = _artistDetails
     suspend fun fetchArtistDetails(artistId: Int) {
-        repository.fetchArtistaDetails(artistId)
+        repository.fetchArtistDetails(artistId)
     }
 
 }
