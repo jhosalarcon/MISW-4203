@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/darkBlue"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre"
+        android:shadowColor="#F1EDED"
+        android:textColorHint="@color/white"
+        android:autofillHints="Maria Perez"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etDesc"
+        android:layout_width="match_parent"
+        android:textColorHint="@color/white"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/etReleaseYear"
+        android:layout_width="match_parent"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content"
+        android:hint="Release Year"
+        android:inputType="date"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/etCoverUrl"
+        android:layout_width="match_parent"
+        android:textColorHint="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Cover URL"
+        android:inputType="textUri"
+        android:autofillHints="" />
+
+    <Spinner
+        android:id="@+id/spinnerGenre"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Género" />
+
+    <Spinner
+        android:id="@+id/spinnerRecordLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Etiqueta" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Save" />
+</LinearLayout>

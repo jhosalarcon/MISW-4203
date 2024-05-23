@@ -1,6 +1,5 @@
-package com.misw.vinilos_g24.ui.artistas
+package com.misw.vinilos_g24.ui.coleccionistas
 
-import ArtistaDetailAdapter
 import NetworkServiceAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,25 +16,25 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ArtistaDetailFragment : Fragment() {
+class ColeccionistaDetailFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ArtistaDetailAdapter
+    private lateinit var adapter: ColeccionistaDetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail_artista, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail_coleccionista, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ArtistaDetailAdapter()
+        adapter = ColeccionistaDetailAdapter()
         recyclerView.adapter = adapter
 
         lifecycleScope.launch {
-            val artistId = arguments?.getInt(ARG_ARTISTA_ID) ?: 0
-            loadArtistDetail(artistId)
+            val collectorId = arguments?.getInt(ARG_COLECCIONISTA_ID) ?: 0
+            loadCollectorDetail(collectorId)
         }
         onResume()
         return view
@@ -54,7 +53,7 @@ class ArtistaDetailFragment : Fragment() {
         }
     }
 
-    private suspend fun loadArtistDetail(artistId: Int) {
+    private suspend fun loadCollectorDetail(collectorId: Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl(NetworkServiceAdapter.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -62,13 +61,13 @@ class ArtistaDetailFragment : Fragment() {
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
         try {
-            val artista = apiService.getMusiciansById(artistId)
-            adapter.updateArtista(artista)
+            val coleccionista = apiService.getCollectorById(collectorId)
+            adapter.updateColeccionista(coleccionista)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(
                 context,
-                "Error cargando detalle del artista: ${e.message}",
+                "Error cargando detalle del coleccionista: ${e.message}",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -76,11 +75,11 @@ class ArtistaDetailFragment : Fragment() {
 
 
     companion object {
-        private const val ARG_ARTISTA_ID = "artistaId"
-        fun newInstance(artistaId: Int): ArtistaDetailFragment {
-            val fragment = ArtistaDetailFragment()
+        private const val ARG_COLECCIONISTA_ID = "coleccionistaId"
+        fun newInstance(coleccionistaId: Int): ColeccionistaDetailFragment {
+            val fragment = ColeccionistaDetailFragment()
             val args = Bundle()
-            args.putInt(ARG_ARTISTA_ID, artistaId)
+            args.putInt(ARG_COLECCIONISTA_ID, coleccionistaId)
             fragment.arguments = args
             return fragment
         }

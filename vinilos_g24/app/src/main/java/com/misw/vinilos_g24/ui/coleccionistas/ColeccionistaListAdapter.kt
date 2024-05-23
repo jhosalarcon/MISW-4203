@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Coleccionista
 
-class ColeccionistaAdapter : RecyclerView.Adapter<ColeccionistaAdapter.ColeccionistasViewHolder>() {
+class ColeccionistaListAdapter(private val listener: ColeccionistaListAdapter.OnColeccionistaClickListener)
+    : RecyclerView.Adapter<ColeccionistaListAdapter.ColeccionistasViewHolder>() {
 
     private var collectors: List<Coleccionista> = emptyList()
 
@@ -23,6 +24,13 @@ class ColeccionistaAdapter : RecyclerView.Adapter<ColeccionistaAdapter.Coleccion
     override fun onBindViewHolder(holder: ColeccionistasViewHolder, position: Int) {
         val coleccionista = collectors[position]
         holder.bind(coleccionista)
+        holder.itemView.setOnClickListener {
+            listener.onColeccionistaClick(coleccionista.id)
+        }
+    }
+    interface OnColeccionistaClickListener {
+        fun onColeccionistaClick(coleccionista: Int)
+
     }
 
     override fun getItemCount(): Int {

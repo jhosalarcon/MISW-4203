@@ -1,8 +1,10 @@
 package com.misw.vinilos_g24.ui.coleccionistas
 
-import ColeccionistaAdapter
+import ColeccionistaListAdapter
 import NetworkServiceAdapter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +20,12 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ColeccionistaFragment : Fragment() {
+class ColeccionistaListFragment : Fragment(), ColeccionistaListAdapter.OnColeccionistaClickListener {
 
     private var _binding: FragmentColeccionistasBinding? = null
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ColeccionistaAdapter
+    private lateinit var adapter: ColeccionistaListAdapter
     private lateinit var collectors: List<Coleccionista>
 
     override fun onCreateView(
@@ -34,7 +36,7 @@ class ColeccionistaFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_coleccionistas, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ColeccionistaAdapter()
+        adapter = ColeccionistaListAdapter(this)
         recyclerView.adapter = adapter
 
         lifecycleScope.launch {
@@ -46,7 +48,7 @@ class ColeccionistaFragment : Fragment() {
 
     private suspend fun loadCollectors() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.105.6.205/")
+            .baseUrl(NetworkServiceAdapter.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -62,6 +64,26 @@ class ColeccionistaFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    override fun onColeccionistaClick(coleccionista: Int) {
+        val detalleCollectorFragment = ColeccionistaDetailFragment.newInstance(coleccionista)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.fragment_container_col,
+            detalleCollectorFragment,
+            "detalleCollectorFragment"
+        )
+        transaction.addToBackStack(null)
+        transaction.commit()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val detailFragment =
+                requireActivity().supportFragmentManager.findFragmentByTag("detalleCollectorFragment")
+            detailFragment?.let {
+                requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
+            }
+        }, 5000)
     }
 
     override fun onDestroyView() {
