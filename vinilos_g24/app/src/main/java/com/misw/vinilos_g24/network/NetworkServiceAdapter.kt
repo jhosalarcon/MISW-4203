@@ -23,6 +23,9 @@ interface NetworkServiceAdapter {
     @GET("collectors")
     suspend fun getCollectors(): List<Coleccionista>
 
+    @GET("collectors/{id}")
+    suspend fun getCollectorById(@Path("id") coleccionistaId: Int): Coleccionista
+
     companion object {
         const val BASE_URL = "http://34.132.241.74/"
         private var instance: NetworkServiceAdapter? = null
@@ -43,5 +46,4 @@ interface NetworkServiceAdapter {
             return retrofit.create(NetworkServiceAdapter::class.java)
         }
     }
-
 }

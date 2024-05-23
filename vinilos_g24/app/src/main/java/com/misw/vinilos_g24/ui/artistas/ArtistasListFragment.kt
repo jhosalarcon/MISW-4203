@@ -42,10 +42,8 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
         lifecycleScope.launch {
             loadArtists()
         }
-
         return view
     }
-
 
     private suspend fun loadArtists() {
         val retrofit = Retrofit.Builder()
@@ -78,14 +76,14 @@ class ArtistasListFragment : Fragment(), ArtistaListAdapter.OnArtistaClickListen
         transaction.replace(
             R.id.fragment_container_art,
             detalleArtistFragment,
-            "detalleAlbumFragment"
+            "detalleArtistFragment"
         )
         transaction.addToBackStack(null)
         transaction.commit()
 
         Handler(Looper.getMainLooper()).postDelayed({
             val detailFragment =
-                requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
+                requireActivity().supportFragmentManager.findFragmentByTag("detalleArtistFragment")
             detailFragment?.let {
                 requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
             }
