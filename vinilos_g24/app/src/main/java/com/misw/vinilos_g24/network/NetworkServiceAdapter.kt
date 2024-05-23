@@ -2,9 +2,12 @@ import android.content.Context
 import com.misw.vinilos_g24.models.Album
 import com.misw.vinilos_g24.models.Artista
 import com.misw.vinilos_g24.models.Coleccionista
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface NetworkServiceAdapter {
@@ -25,6 +28,9 @@ interface NetworkServiceAdapter {
 
     @GET("collectors/{id}")
     suspend fun getCollectorById(@Path("id") coleccionistaId: Int): Coleccionista
+
+    @POST("albums")
+    suspend fun createAlbum(@Body album: Album): Response<Album>
 
     companion object {
         const val BASE_URL = "http://34.132.241.74/"
