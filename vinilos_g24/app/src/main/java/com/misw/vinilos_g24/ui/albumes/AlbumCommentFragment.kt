@@ -80,6 +80,28 @@ class AlbumCommentFragment : Fragment() {
             }
         }
     }
+    private fun loadCollectorIds() {
+        lifecycleScope.launch {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(NetworkServiceAdapter.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(NetworkServiceAdapter::class.java)
+
+            try {
+                val collectors = apiService.getCollectors()
+                val collectorIds = collectors.map { it.id }
+                val collectorIdStrings = collectorIds.map { it.toString() }
+                "val collectorAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item_selected, collectorIdStrings)"
+                "collectorAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)"
+                "spinnerAlbum.adapter = collectorAdapter"
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, "Error loading collector IDs: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     private suspend fun createComment() {
         val retrofit = Retrofit.Builder()
