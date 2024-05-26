@@ -13,4 +13,11 @@
     <string name="menu_coleccionistas">Coleccionistas</string>
     <string name="imagen_del_album">Imagen del álbum</string>
     <string name="imagen_del_artista">Imagen del artista</string>
+    <string-array name="puntaje">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

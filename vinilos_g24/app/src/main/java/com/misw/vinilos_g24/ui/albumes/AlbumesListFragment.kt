@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentAlbumesBinding
 import com.misw.vinilos_g24.models.Album
@@ -46,7 +47,7 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
 
     private suspend fun loadAlbums() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.105.6.205/")
+            .baseUrl(NetworkServiceAdapter.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -61,6 +62,18 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
                 "Error cargando detalle de álbum: ${e.message}",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<FloatingActionButton>(R.id.fabComentarAlbum).setOnClickListener {
+            val detalleAlbumFragment = AlbumCommentFragment.newInstance()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_comment_album, detalleAlbumFragment, "detalleAlbumFragment")
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 

@@ -3,7 +3,7 @@ package com.misw.vinilos_g24.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Album(
+data class  Album(
     val id: Int,
     val name: String,
     val cover: String,
