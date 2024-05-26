@@ -1,7 +1,6 @@
 package com.misw.vinilos_g24.ui.albumes
 
 import NetworkServiceAdapter
-import PostData
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Response
 
 class AlbumCommentFragment : Fragment() {
 
