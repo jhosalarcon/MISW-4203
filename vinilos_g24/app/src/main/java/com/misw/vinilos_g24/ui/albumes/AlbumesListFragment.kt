@@ -1,7 +1,6 @@
 package com.misw.vinilos_g24.ui.albumes
 
 import NetworkServiceAdapter
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.misw.vinilos_g24.MainActivity
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.databinding.FragmentAlbumesBinding
 import com.misw.vinilos_g24.models.Album
@@ -67,11 +65,15 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
         }
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<FloatingActionButton>(R.id.fabCrearAlbum).setOnClickListener {
-         val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+        view.findViewById<FloatingActionButton>(R.id.fabComentarAlbum).setOnClickListener {
+            val detalleAlbumFragment = AlbumCommentFragment.newInstance()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_comment_album, detalleAlbumFragment, "detalleAlbumFragment")
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 

@@ -1,3 +1,4 @@
+
 import android.content.Context
 import com.misw.vinilos_g24.models.Album
 import com.misw.vinilos_g24.models.Artista
@@ -9,7 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-
+import com.misw.vinilos_g24.models.PostData
 interface NetworkServiceAdapter {
     @GET("albums")
     suspend fun getAlbums(): List<Album>
@@ -32,6 +33,9 @@ interface NetworkServiceAdapter {
     @POST("albums")
     suspend fun createAlbum(@Body album: Album): Response<Album>
 
+    @POST("albums/{id}/comments")
+    suspend fun createAlbumComment(@Path("id") albumId: Int, @Body data: PostData): Response<Album>
+
     companion object {
         const val BASE_URL = "http://34.132.241.74/"
         private var instance: NetworkServiceAdapter? = null
@@ -53,3 +57,8 @@ interface NetworkServiceAdapter {
         }
     }
 }
+data class PostData(
+    val spinnerValue: Int,
+    val spinnerValue2: String,
+    val editTextValue: String,
+)
