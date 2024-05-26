@@ -3,6 +3,7 @@ import android.content.Context
 import com.misw.vinilos_g24.models.Album
 import com.misw.vinilos_g24.models.Artista
 import com.misw.vinilos_g24.models.Coleccionista
+import com.misw.vinilos_g24.models.PostData
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -10,7 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import com.misw.vinilos_g24.models.PostData
+
 interface NetworkServiceAdapter {
     @GET("albums")
     suspend fun getAlbums(): List<Album>
@@ -58,7 +59,7 @@ interface NetworkServiceAdapter {
     }
 }
 data class PostData(
-    val spinnerValue: Int,
-    val spinnerValue2: String,
-    val editTextValue: String,
+    val rating: Int,
+    val description: String,
+    val collector: Int = 1
 )
