@@ -1,3 +1,4 @@
+
 import android.content.Context
 import com.misw.vinilos_g24.models.Album
 import com.misw.vinilos_g24.models.Artista
@@ -32,6 +33,9 @@ interface NetworkServiceAdapter {
     @POST("albums")
     suspend fun createAlbum(@Body album: Album): Response<Album>
 
+    @POST("albums/{id}/comments")
+    suspend fun createAlbumComment(@Body data: PostData): Response<Album>
+
     companion object {
         const val BASE_URL = "http://34.132.241.74/"
         private var instance: NetworkServiceAdapter? = null
@@ -53,3 +57,7 @@ interface NetworkServiceAdapter {
         }
     }
 }
+data class PostData(
+    val spinnerValue: String,
+    val editTextValue: String,
+)

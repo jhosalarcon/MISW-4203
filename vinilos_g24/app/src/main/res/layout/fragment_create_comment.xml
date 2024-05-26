@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/darkBlue"
+    android:padding="16dp">
+
+
+    <Spinner
+        android:id="@+id/spinnerAlbum"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Album" />
+
+    <Spinner
+        android:id="@+id/spinnerPuntaje"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Puntaje" />
+
+
+    <EditText
+        android:id="@+id/commentAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comentario"
+        android:shadowColor="#F1EDED"
+        android:textColorHint="@color/white"
+        android:autofillHints="Es un álbum increible"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Save" />
+</LinearLayout>
