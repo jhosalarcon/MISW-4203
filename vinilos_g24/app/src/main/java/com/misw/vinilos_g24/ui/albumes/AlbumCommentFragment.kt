@@ -96,7 +96,7 @@ class AlbumCommentFragment : Fragment() {
 
         try {
             val response: Response<Album> = apiService.createAlbumComment(selectedAlbumId,
-                com.misw.vinilos_g24.models.PostData(selectedPuntaje, inputText)
+                com.misw.vinilos_g24.models.PostData(selectedPuntaje, inputText, collector = 1)
             )
             if (response.isSuccessful) {
                 Toast.makeText(context, "Comentario creado exitosamente", Toast.LENGTH_SHORT).show()
