@@ -20,7 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AlbumCommentFragment : Fragment() {
 
-    private lateinit var spinner: Spinner
+    private lateinit var spinnerAlbum: Spinner
+    private lateinit var spinnerPuntaje: Spinner
     private lateinit var editText: EditText
     private lateinit var buttonSubmit: Button
 
@@ -30,19 +31,26 @@ class AlbumCommentFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_create_comment, container, false)
 
-        spinner = view.findViewById(R.id.spinnerAlbum)
-        spinner = view.findViewById(R.id.spinnerPuntaje)
+        spinnerAlbum = view.findViewById(R.id.spinnerAlbum)
+        spinnerPuntaje = view.findViewById(R.id.spinnerPuntaje)
         editText = view.findViewById(R.id.commentAlbum)
         buttonSubmit = view.findViewById(R.id.btnSave)
 
-        val adapter = ArrayAdapter.createFromResource(
+        val albumAdapter = ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.puntaje, // Define this array in your strings.xml
-            android.R.layout.simple_spinner_item
+            R.array.puntaje,
+            R.layout.spinner_item_selected
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        albumAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
+        spinnerAlbum.adapter = albumAdapter
 
+        val puntajeAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.puntaje,
+            R.layout.spinner_item_selected
+        )
+        puntajeAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
+        spinnerPuntaje.adapter = puntajeAdapter
         buttonSubmit.setOnClickListener {
             lifecycleScope.launch {
                 createComment()
@@ -57,18 +65,24 @@ class AlbumCommentFragment : Fragment() {
             .baseUrl(NetworkServiceAdapter.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val selectedValue = spinner.selectedItem.toString()
+        val selectedAlbum = spinnerAlbum.selectedItem.toString()
+        val selectedPuntaje = spinnerPuntaje.selectedItem.toString()
         val inputText = editText.text.toString()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
 
         try {
-            apiService.createAlbumComment(PostData(selectedValue, inputText))
+            apiService.createAlbumComment(PostData(selectedAlbum, selectedPuntaje, inputText))
+            Toast.makeText(
+                context,
+                "Comentario creado exitosamente",
+                Toast.LENGTH_SHORT
+            ).show()
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(
                 context,
-                "Error cargando detalle de álbum: ${e.message}",
+                "Error guardando el comentario: ${e.message}",
                 Toast.LENGTH_SHORT
             ).show()
         }

@@ -59,5 +59,6 @@ interface NetworkServiceAdapter {
 }
 data class PostData(
     val spinnerValue: String,
+    val spinnerValue2: String,
     val editTextValue: String,
 )

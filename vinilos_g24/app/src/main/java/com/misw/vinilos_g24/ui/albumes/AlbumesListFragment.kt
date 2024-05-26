@@ -74,14 +74,6 @@ class AlbumesListFragment : Fragment(), AlbumListAdapter.OnAlbumClickListener {
             transaction.replace(R.id.fragment_comment_album, detalleAlbumFragment, "detalleAlbumFragment")
             transaction.addToBackStack(null)
             transaction.commit()
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                val detailFragment =
-                    requireActivity().supportFragmentManager.findFragmentByTag("detalleAlbumFragment")
-                detailFragment?.let {
-                    requireActivity().supportFragmentManager.beginTransaction().hide(it).commit()
-                }
-            }, 10000)
         }
     }
 
