@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.misw.vinilos_g24.R
 import com.misw.vinilos_g24.models.Album
+import com.misw.vinilos_g24.models.Coleccionista
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -23,9 +24,11 @@ class AlbumCommentFragment : Fragment() {
 
     private lateinit var spinnerAlbum: Spinner
     private lateinit var spinnerPuntaje: Spinner
+    private lateinit var spinnerColeccionista: Spinner
     private lateinit var editText: EditText
     private lateinit var buttonSubmit: Button
     private lateinit var albumIds: List<Int>
+    private lateinit var collectorIds: List<Int>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +38,12 @@ class AlbumCommentFragment : Fragment() {
 
         spinnerAlbum = view.findViewById(R.id.spinnerAlbum)
         spinnerPuntaje = view.findViewById(R.id.spinnerPuntaje)
+        spinnerColeccionista = view.findViewById(R.id.spinnerColeccionista)
         editText = view.findViewById(R.id.commentAlbum)
         buttonSubmit = view.findViewById(R.id.btnSave)
 
         loadAlbumIds()
+        loadCollectorIds()
 
         val puntajeAdapter = ArrayAdapter.createFromResource(
             requireContext(),
@@ -79,6 +84,7 @@ class AlbumCommentFragment : Fragment() {
             }
         }
     }
+
     private fun loadCollectorIds() {
         lifecycleScope.launch {
             val retrofit = Retrofit.Builder()
@@ -90,11 +96,11 @@ class AlbumCommentFragment : Fragment() {
 
             try {
                 val collectors = apiService.getCollectors()
-                val collectorIds = collectors.map { it.id }
+                collectorIds = collectors.map { it.id }
                 val collectorIdStrings = collectorIds.map { it.toString() }
-                "val collectorAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item_selected, collectorIdStrings)"
-                "collectorAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)"
-                "spinnerAlbum.adapter = collectorAdapter"
+                val collectorAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item_selected, collectorIdStrings)
+                collectorAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
+                spinnerColeccionista.adapter = collectorAdapter
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(context, "Error loading collector IDs: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -112,12 +118,14 @@ class AlbumCommentFragment : Fragment() {
         val selectedAlbumId = albumIds[selectedAlbumIdPosition]
         val selectedPuntaje = spinnerPuntaje.selectedItem.toString().toInt()
         val inputText = editText.text.toString()
+        val selectedCollectorIdPosition = spinnerColeccionista.selectedItemPosition
+        val selectedCollectorId = collectorIds[selectedCollectorIdPosition]
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
 
         try {
             val response: Response<Album> = apiService.createAlbumComment(selectedAlbumId,
-                com.misw.vinilos_g24.models.PostData(selectedPuntaje, inputText, collector = 1)
+                com.misw.vinilos_g24.models.PostData(selectedPuntaje, inputText, collector = selectedCollectorId)
             )
             if (response.isSuccessful) {
                 Toast.makeText(context, "Comentario creado exitosamente", Toast.LENGTH_SHORT).show()
