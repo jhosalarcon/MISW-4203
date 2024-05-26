@@ -14,9 +14,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.misw.vinilos_g24.R
+import com.misw.vinilos_g24.models.Album
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Response
 
 class AlbumCommentFragment : Fragment() {
 
@@ -24,6 +26,7 @@ class AlbumCommentFragment : Fragment() {
     private lateinit var spinnerPuntaje: Spinner
     private lateinit var editText: EditText
     private lateinit var buttonSubmit: Button
+    private lateinit var albumIds: List<Int>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +39,7 @@ class AlbumCommentFragment : Fragment() {
         editText = view.findViewById(R.id.commentAlbum)
         buttonSubmit = view.findViewById(R.id.btnSave)
 
-        val albumAdapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.puntaje,
-            R.layout.spinner_item_selected
-        )
-        albumAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
-        spinnerAlbum.adapter = albumAdapter
+        loadAlbumIds()
 
         val puntajeAdapter = ArrayAdapter.createFromResource(
             requireContext(),
@@ -51,6 +48,7 @@ class AlbumCommentFragment : Fragment() {
         )
         puntajeAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
         spinnerPuntaje.adapter = puntajeAdapter
+
         buttonSubmit.setOnClickListener {
             lifecycleScope.launch {
                 createComment()
@@ -60,31 +58,54 @@ class AlbumCommentFragment : Fragment() {
         return view
     }
 
+    private fun loadAlbumIds() {
+        lifecycleScope.launch {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(NetworkServiceAdapter.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(NetworkServiceAdapter::class.java)
+
+            try {
+                val albums = apiService.getAlbums()
+                albumIds = albums.map { it.id }
+                val albumIdStrings = albumIds.map { it.toString() }
+                val albumAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item_selected, albumIdStrings)
+                albumAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
+                spinnerAlbum.adapter = albumAdapter
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, "Error loading album IDs: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private suspend fun createComment() {
         val retrofit = Retrofit.Builder()
             .baseUrl(NetworkServiceAdapter.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val selectedAlbum = spinnerAlbum.selectedItem.toString()
-        val selectedPuntaje = spinnerPuntaje.selectedItem.toString()
+
+        val selectedAlbumIdPosition = spinnerAlbum.selectedItemPosition
+        val selectedAlbumId = albumIds[selectedAlbumIdPosition]
+        val selectedPuntaje = spinnerPuntaje.selectedItem.toString().toInt()
         val inputText = editText.text.toString()
 
         val apiService = retrofit.create(NetworkServiceAdapter::class.java)
 
         try {
-            apiService.createAlbumComment(PostData(selectedAlbum, selectedPuntaje, inputText))
-            Toast.makeText(
-                context,
-                "Comentario creado exitosamente",
-                Toast.LENGTH_SHORT
-            ).show()
+            val response: Response<Album> = apiService.createAlbumComment(selectedAlbumId,
+                com.misw.vinilos_g24.models.PostData(selectedPuntaje, inputText)
+            )
+            if (response.isSuccessful) {
+                Toast.makeText(context, "Comentario creado exitosamente", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Error guardando el comentario: ${response.message()}", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(
-                context,
-                "Error guardando el comentario: ${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(context, "Error guardando el comentario: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

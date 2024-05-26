@@ -10,7 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-
+import com.misw.vinilos_g24.models.PostData
 interface NetworkServiceAdapter {
     @GET("albums")
     suspend fun getAlbums(): List<Album>
@@ -34,7 +34,7 @@ interface NetworkServiceAdapter {
     suspend fun createAlbum(@Body album: Album): Response<Album>
 
     @POST("albums/{id}/comments")
-    suspend fun createAlbumComment(@Body data: PostData): Response<Album>
+    suspend fun createAlbumComment(@Path("id") albumId: Int, @Body data: PostData): Response<Album>
 
     companion object {
         const val BASE_URL = "http://34.132.241.74/"
@@ -58,7 +58,7 @@ interface NetworkServiceAdapter {
     }
 }
 data class PostData(
-    val spinnerValue: String,
+    val spinnerValue: Int,
     val spinnerValue2: String,
     val editTextValue: String,
 )
