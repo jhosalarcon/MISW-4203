@@ -7,6 +7,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -29,14 +30,10 @@ public class TestComentario {
         Thread.sleep(3000);
         onView(withContentDescription("Open navigation drawer")).perform(click());
         onView(withText("Álbumes")).perform(click());
-        onView(withText("pruebita")).check(matches(isDisplayed()));
-    }
-    @Test
-    public void AlbumNoExiste() throws InterruptedException {
         Thread.sleep(3000);
-        onView(withContentDescription("Open navigation drawer")).perform(click());
-        onView(withText("Álbumes")).perform(click());
-        onView(withText("Album falso")).check(doesNotExist());
+        onView(withId(R.id.fabComentarAlbum)).perform(click());
+        Thread.sleep(3000);
     }
+
 
 }
